@@ -4,7 +4,10 @@ import winston, { format } from "winston";
 const { combine, printf } = format;
 const logFileName = `${moment().tz('Europe/Kyiv').format('MM-DD-HH-mm-ss')}`;
 const logFormat = printf(({ level, message, label, metadata }) => {
-    return `${moment().tz('Europe/Kyiv').format('HH:mm:ss.SSS')} [${level}]${label ? ` [${label}]` : ''}${(metadata && metadata.place) ? ` [${metadata.place}]` : ''}: ${typeof message === 'string' ? message : JSON.stringify(message, null, 4)}`;
+    return `${moment().tz('Europe/Kyiv').format('HH:mm:ss.SSS')} [${level}]${label ? ` [${label}]` : ''}${(metadata && metadata.place) ? ` [${metadata.place}]` : ''}: ${typeof message === 'bigint' ? message.toString() :
+            typeof message === 'string' ? message :
+                JSON.stringify(message, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2)
+        }`;
 });
 
 export class BotLogger {
