@@ -5,8 +5,8 @@ const { combine, printf } = format;
 const logFileName = `${moment().tz('Europe/Kyiv').format('MM-DD-HH-mm-ss')}`;
 const logFormat = printf(({ level, message, label, metadata }) => {
     return `${moment().tz('Europe/Kyiv').format('HH:mm:ss.SSS')} [${level}]${label ? ` [${label}]` : ''}${(metadata && metadata.place) ? ` [${metadata.place}]` : ''}: ${typeof message === 'bigint' ? message.toString() :
-            typeof message === 'string' ? message :
-                JSON.stringify(message, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2)
+        typeof message === 'string' ? message :
+            JSON.stringify(message, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2)
         }`;
 });
 
@@ -57,7 +57,7 @@ export class BotLogger {
         this.logger.warn(message);
     }
 
-    public error(message: any) {
+    public error(message: any, error?: any) {
         const e = new Error();
 
         const regex = /\((.*):(\d+):(\d+)\)$/
@@ -66,6 +66,13 @@ export class BotLogger {
         const place = match[1].split('/').reverse()[0] + ':' + match[2];
 
         this.logger.error(message, { place });
+        if (error) {
+            if (error instanceof Error && error.stack) {
+                this.logger.error(error.stack, { place });
+            } else {
+                this.logger.error(error, { place });
+            }
+        }
     }
 
     public createChildLogger(...labels: string[]): BotLogger {
