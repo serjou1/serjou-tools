@@ -63,7 +63,7 @@ export class BotLogger {
         const regex = /\((.*):(\d+):(\d+)\)$/
         const match = regex.exec((e.stack as string).split("\n")[2]) as RegExpExecArray;
 
-        const place = match[1].split('/').reverse()[0] + ':' + match[2];
+        const place = match ? (match[1].split('/').reverse()[0] + ':' + match[2]) : 'unknown place';
 
         this.logger.error(message, { place });
         if (error) {
