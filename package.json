@@ -1,6 +1,6 @@
 {
   "name": "serjou-tools",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Some useful tools that I use in my projects",
   "scripts": {
     "build": "tsup",
@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "d3": "^7.9.0",
     "moment-timezone": "^0.5.45",
     "winston": "^3.14.2"
   },
