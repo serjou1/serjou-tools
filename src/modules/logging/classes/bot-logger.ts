@@ -65,9 +65,14 @@ export class BotLogger {
 
         const place = match ? (match[1].split('/').reverse()[0] + ':' + match[2]) : 'unknown place';
 
-        this.logger.error(message, { place });
         if (error) {
-            if (error.stack) {
+            this.logger.error(message, { place });
+        } else {
+            error = message;
+        }
+
+        if (error) {
+            if (error instanceof Error && error.stack) {
                 this.logger.error(error.stack, { place });
             } else {
                 this.logger.error(error, { place });
