@@ -67,7 +67,7 @@ export class BotLogger {
 
         this.logger.error(message, { place });
         if (error) {
-            if (error instanceof Error && error.stack) {
+            if (error.stack) {
                 this.logger.error(error.stack, { place });
             } else {
                 this.logger.error(error, { place });
