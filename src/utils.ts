@@ -22,6 +22,11 @@ export const toStep = (value: number, step: number | string) => {
     return Number(f(value));
 };
 
+export function startsWithArray<T>(array: ArrayLike<T>, subArray: Array<T>): boolean {
+    if (subArray.length > array.length) return false;
+    return subArray.every((val, i) => array[i] === val);
+}
+
 const roundToStep = (value: number, step: number) => {
     return Math.round(value / step) * step;
 };

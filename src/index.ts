@@ -2,5 +2,6 @@ export * as logging from './modules/logging';
 export {
     sleep,
     onlyUnique,
-    toStep
+    toStep,
+    startsWithArray
 } from './utils';
