@@ -6,9 +6,9 @@ const info = (message: string): void => {
     defaultLogger.info(message);
 };
 
-export { BotLogger } from './classes/bot-logger';
+export { BotLogger, setDefaultOptions } from './classes/bot-logger';
 export {
     info,
     createLogger,
-    createFileLogger
+    createFileLogger,
 };

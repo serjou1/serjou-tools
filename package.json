@@ -1,6 +1,6 @@
 {
   "name": "serjou-tools",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "Some useful tools that I use in my projects",
   "scripts": {
     "build": "tsup",
