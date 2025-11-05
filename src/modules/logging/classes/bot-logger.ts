@@ -10,23 +10,59 @@ const logFormat = printf(({ level, message, label, metadata }) => {
         }`;
 });
 
+const defaultOptions = {
+    skipConsole: false,
+    skipFile: false,
+    level: 'debug',
+};
+
+export const setDefaultOptions = ({
+    skipConsole,
+    skipFile,
+    level,
+}: {
+    skipConsole?: boolean,
+    skipFile?: boolean,
+    level?: string,
+}) => {
+    defaultOptions.level = level ?? defaultOptions.level;
+    defaultOptions.skipFile = skipFile ?? defaultOptions.skipFile;
+    defaultOptions.skipConsole = skipConsole ?? defaultOptions.skipConsole;
+};
+
 export class BotLogger {
-    private logger: winston.Logger;
-    constructor(
-        private labels: string[] = [],
-        level: string = 'debug',
-        skipConsole = false
-    ) {
-        const transports: winston.transport | winston.transport[] = [
-            new winston.transports.File({
-                filename: `./logs/${logFileName}.log`
-            })
-        ];
+    private readonly labels: string[];
+    private readonly logger: winston.Logger;
+    constructor(options: {
+        labels: string[],
+        level?: string,
+        skipConsole?: boolean,
+        skipFile?: boolean,
+    },) {
+        const {
+            labels,
+            level,
+            skipConsole,
+            skipFile
+        } = {
+            ...defaultOptions,
+            ...options,
+        };
+        this.labels = labels;
+
+        const transports: winston.transport | winston.transport[] = [];
+        if (skipFile === false) {
+            transports.push(
+                new winston.transports.File({
+                    filename: `./logs/${logFileName}.log`
+                })
+            );
+        }
         if (skipConsole === false) {
             transports.push(new winston.transports.Console());
         }
 
-        const label = this.labels.join(' | ');
+        const label = labels.join(' | ');
         this.logger = winston.createLogger({
             level,
             format: combine(
@@ -84,6 +120,8 @@ export class BotLogger {
         const newLabels: string[] = [];
         newLabels.push(...this.labels);
         newLabels.push(...labels);
-        return new BotLogger(newLabels);
+        return new BotLogger({
+            labels: newLabels
+        });
     }
 }

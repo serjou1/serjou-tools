@@ -1,7 +1,7 @@
 import { BotLogger } from "./classes/bot-logger";
 
 export const createLogger = (...labels: string[]): BotLogger => {
-    return new BotLogger(labels);
+    return new BotLogger({ labels });
 };
 
 export const createFileLogger = (): BotLogger => {
